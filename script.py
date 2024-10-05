@@ -158,7 +158,6 @@ def get_info(url):
 
     key_facts = json_spec(page)
 
-    # image_url = page.find("img")["src"]
     image_urls = [
         image.find("img")["src"]
         for image in page.find(class_="swiper swiper-gallery").find_all("rspb-image")
@@ -213,6 +212,9 @@ def random_test(times):
 
 
 def json_spec(page):
+    """RSPB pages have some interactive information trapped in a big ball of
+    enciphered JSON. Perform the relevant character replacements and return a
+    small part of the JSON as a dictionary."""
     encrypt = page.find_all("script")[-1].text
     replacements = [
         ["{", "\n{"],
@@ -251,6 +253,7 @@ def write_csv(filename, birds):
 def download_birds():
     birds = []
     bird_urls = []
+    # The Slavonian Grebe, alas, has a broken page.
     skip = ["https://www.rspb.org.uk/birds-and-wildlife/slavonian-grebe"]
     with open(BIRD_URLS, "r") as file:
         bird_urls = [url.rstrip() for url in file.readlines()]
