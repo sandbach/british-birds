@@ -15,10 +15,10 @@ CSV_PATH = "birds.csv"
 
 class Bird:
     def __init__(self, *args):
-        # There is sometimes spurious whitespace
         args = args[0]
         for arg in args:
             if isinstance(arg, str):
+                # There is sometimes spurious whitespace
                 arg = arg.strip()
 
         self.name = args[0]
@@ -70,6 +70,8 @@ class Bird:
         return joined
 
     def numbers(self):
+        """Return an estimate of the number of `bird` in the UK, based on the
+        'UK breeding birds' section of `bird`'s 'Key facts'."""
         reg = re.compile(r"[\d,\.]*")
         breeding_birds = self.key_facts.get("ukBreedingBirds", "0").strip()
         number_string = reg.search(breeding_birds).group().replace(",", "")
